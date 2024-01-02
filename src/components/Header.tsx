@@ -15,7 +15,7 @@ export default function Header() {
     <>
       {showSettings && (
         <div
-          className="absolute w-screen h-screen"
+          className="absolute w-screen h-screen z-40"
           onClick={() => setShowSettings(false)}
         ></div>
       )}
@@ -29,22 +29,25 @@ export default function Header() {
           className="cursor-pointer rounded-full"
         />
         {showSettings && (
-          <div className="absolute flex flex-col gap-2 top-[80px] w-[200px] bg-slate-800 rounded-md p-2 shadow-md">
+          <div className="absolute flex flex-col gap-2 top-[80px] w-[200px] bg-slate-800 rounded-md p-2 shadow-md z-50 text-white">
             <Link
+              onClick={() => setShowSettings(false)}
               className="flex w-full p-2 hover:bg-slate-600 rounded-md text-sm"
-              href=""
+              href="/"
             >
               Create booking
             </Link>
             <Link
+              onClick={() => setShowSettings(false)}
               className="flex w-full p-2 hover:bg-slate-600 rounded-md text-sm"
-              href=""
+              href="/bookings"
             >
               Bookings
             </Link>
             <Link
               className="flex w-full p-2 hover:bg-slate-600 rounded-md text-sm"
-              href=""
+              onClick={() => setShowSettings(false)}
+              href="/profile"
             >
               Profile
             </Link>

@@ -1,0 +1,36 @@
+import supabase from "@/utils/supabase";
+import { Barber, Schedule } from "../typings";
+
+export async function GetSchedule(
+  date: string,
+  barber: Barber
+): Promise<Schedule[]> {
+  const { data: schedules } = await supabase
+    .from("schedules")
+    .select()
+    .eq("date", date)
+    .eq("barber", barber.id);
+
+  if (schedules) {
+    return schedules;
+  }
+
+  return [];
+}
+
+export async function CreateSchedules(
+  date: string,
+  barber: Barber
+): Promise<Schedule[]> {
+  const hours = ["10:00", "10:30", "11:00", "11:30", "12:00", "12:30"];
+  for (var i = 0; i < hours.length; i++) {
+    await supabase.from("schedules").insert({
+      date: date,
+      hour: hours[i],
+      available: true,
+      barber: barber.id,
+    });
+  }
+
+  return await GetSchedule(date, barber);
+}
