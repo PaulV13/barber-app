@@ -33,8 +33,14 @@ export type Booking = {
   user_id: User;
 };
 
+export type BookingCreate = {
+  service: UUID;
+  schedule: UUID;
+  user_id: UUID;
+};
+
 export type User = {
-  id: UUID;
+  id?: UUID;
   name: string;
   email: string;
   phone: string;

@@ -1,14 +1,26 @@
 "use client";
 
+import { signOut } from "@/app/auth/auth";
+import { BookingContext } from "@/context/BookingProvider";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 
 export default function Header() {
+  const router = useRouter();
   const [showSettings, setShowSettings] = useState(false);
+  const state = useContext(BookingContext);
 
   const showSetting = () => {
     setShowSettings(!showSettings);
+  };
+
+  const handleLogOut = async () => {
+    state?.updateUser(null);
+    setShowSettings(!showSettings);
+    await signOut();
+    router.push("/auth/login");
   };
 
   return (
@@ -52,26 +64,28 @@ export default function Header() {
               Profile
             </Link>
             <div className="w-full h-[1px] bg-slate-600"></div>
-            <div className="flex w-full gap-2 items-center hover:bg-slate-600 rounded-md text-sm p-2 cursor-pointer">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                fill="none"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
-                <path d="M15 12h-12l3 -3" />
-                <path d="M6 15l-3 -3" />
-              </svg>
-              <Link className="" href="">
-                Log Out
-              </Link>
-            </div>
+            {state?.user ? (
+              <div className="flex w-full gap-2 items-center hover:bg-slate-600 rounded-md text-sm p-2 cursor-pointer">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="2"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2" />
+                  <path d="M15 12h-12l3 -3" />
+                  <path d="M6 15l-3 -3" />
+                </svg>
+                <Link href="" onClick={handleLogOut}>
+                  Log Out
+                </Link>
+              </div>
+            ) : null}
           </div>
         )}
       </header>

@@ -19,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} `}>
-        <Header />
-        <BookingProvider>{children}</BookingProvider>
+        <BookingProvider>
+          <Header />
+          {children}
+        </BookingProvider>
       </body>
     </html>
   );
